@@ -14,7 +14,6 @@ public class Quest_Main {
 	}//Main
 
 //VARIABLE INITZ
-	
 	private Animation a;
 	private ScreenManager s;
 	private Image bg;
