@@ -11,8 +11,15 @@ import javax.swing.ImageIcon;
 import Inherit.Core;
 import javax.swing.JPanel;
 
-public class Quest_Main extends JPanel{
+public class Quest_Main extends JPanel implements ActionListener{
 
+	public Quest_Main(){
+		
+		addKeyListener(new TAdapter());
+		setFocusable(true);
+		
+	}
+	
 	public static void main(String[] args){
 		
 		Quest_Main main = new Quest_Main();
@@ -25,6 +32,7 @@ public class Quest_Main extends JPanel{
 	private Animation a;
 	private ScreenManager s;
 	private Image bg;
+	private long timePassed;
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,0),
 		new DisplayMode(800,600,24,0),
@@ -40,8 +48,6 @@ public class Quest_Main extends JPanel{
 		bg = new ImageIcon(".\\src\\Images\\BG.jpg").getImage();
 		Image step1 = new ImageIcon(".\\src\\Images\\step1.png").getImage();
 		Image step2 = new ImageIcon(".\\src\\Images\\step2.png").getImage();
-		
-		addKeyListener(new TAdapter());
 		
 		a = new Animation();
 		a.addScene(step1, 5000);
@@ -76,7 +82,7 @@ public class Quest_Main extends JPanel{
 		long startingTime = System.currentTimeMillis();
 		long cumTime = startingTime;
 		
-		while(cumTime - startingTime < 100000){
+		while(cumTime - startingTime < 10000000){
 			
 			long timePassed = System.currentTimeMillis() - startingTime;
 			cumTime += timePassed;
@@ -102,19 +108,20 @@ public class Quest_Main extends JPanel{
 	public void draw(Graphics g){
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
-		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()), null);
+		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), null);
 		
 	}
 	
 //MAIN SPRITE POS
 	public void update(long timePassed){
 		
+		Graphics2D g = s.getGraphics();
+		
 		if(sprite.getX() < 0){
 			
 			sprite.setX(0);
 		
-		}else if(sprite.getX() + sprite.getWidth() > s.getWidth()){
-			
+		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()){
 			sprite.setX(s.getWidth());
 			
 		}
@@ -123,27 +130,44 @@ public class Quest_Main extends JPanel{
 			
 			sprite.setY(0);
 		
-		}else if(sprite.getY() + sprite.getHeight() > s.getHeight()){
+		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()){
 			
 			sprite.setY(s.getHeight());
 			
 		}
 		
 		sprite.update(timePassed);
+		draw(g);
 		
 	}//Method
-
-//INNER CLASS
-	private class TAdapter extends KeyAdapter{
-	    
+	
+	public void actionPerformed(ActionEvent e) {
+		
+		Graphics2D g = s.getGraphics();
+		
+		update(timePassed);
+		draw(g);
+		g.dispose();
+		s.update();
+		
+	}
+	
+//INNER ADAPTER CLASS
+	
+	private class TAdapter extends KeyAdapter {
+	
         public void keyReleased(KeyEvent e){
+        	System.out.println("stas");
             sprite.keyReleased(e);
         }
         
         public void keyPressed(KeyEvent e){
+        	System.out.println("stas");
             sprite.keyPressed(e);
         }
         
-    }//PC_TAdapter EX_KeyAdapter
+        public void keyTyped(KeyEvent e) {
+        } 
+	}
 	
 }//Class

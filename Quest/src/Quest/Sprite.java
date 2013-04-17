@@ -2,8 +2,9 @@ package Quest;
 import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 
-public class Sprite implements ActionListener{
+public class Sprite implements KeyListener{
 
 	private Animation a;
 	private float x;
@@ -88,16 +89,16 @@ public class Sprite implements ActionListener{
 			int key= e.getKeyCode();
 		
 			if(key == KeyEvent.VK_UP){
-				setVelocityY(0.001f);
+				vy = 0.001f;
 			}
 			if(key == KeyEvent.VK_DOWN){
-				setVelocityY(-0.001f);
+				vy = 0.001f;
 			}
 			if(key == KeyEvent.VK_RIGHT){
-				setVelocityX(0.001f);
+				vx = 0.001f;
 			}
 			if(key == KeyEvent.VK_LEFT){
-				setVelocityX(-0.001f);
+				vx = -0.001f;
 			}
 		
 			e.consume();
@@ -109,16 +110,16 @@ public class Sprite implements ActionListener{
 			int key= e.getKeyCode();
 		
 			if(key == KeyEvent.VK_UP){
-				setVelocityY(0.00f);
+				vy = 0;
 			}
 			if(key == KeyEvent.VK_DOWN){
-				setVelocityY(-0.00f);
+				vy = 0;
 			}
 			if(key == KeyEvent.VK_RIGHT){
-				setVelocityX(0.00f);
+				vx = 0;
 			}
 			if(key == KeyEvent.VK_LEFT){
-				setVelocityX(-0.00f);
+				vx = 0;
 			}
 		
 			e.consume();

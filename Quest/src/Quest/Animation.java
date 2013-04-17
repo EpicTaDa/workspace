@@ -41,7 +41,7 @@ public class Animation{
 		
 		if(scenes.size()>1){
 			
-			movieTime += 5000;
+			movieTime += 500;
 			
 			if(movieTime >= totalTime){
 				movieTime = 0;
