@@ -3,7 +3,7 @@ package Quest;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class Animation {
+public class Animation{
 
 	private ArrayList scenes;
 	private int sceneIndex;
@@ -41,7 +41,7 @@ public class Animation {
 		
 		if(scenes.size()>1){
 			
-			movieTime += timePassed;
+			movieTime += 5000;
 			
 			if(movieTime >= totalTime){
 				movieTime = 0;
@@ -88,6 +88,5 @@ public class Animation {
 			
 		}
 	}
-	
 	
 }//Class
