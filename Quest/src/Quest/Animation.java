@@ -9,7 +9,7 @@ public class Animation{
 	private int sceneIndex;
 	private long movieTime;
 	private long totalTime;
-	
+	private int timePassed;
 
 //CONSTRUCTOR
 	public Animation(){
@@ -37,7 +37,7 @@ public class Animation{
 	}//Method
 	
 //CHANGE SCENES
-	public synchronized void update(long timePassed){
+	public synchronized void update(){
 		
 		if(scenes.size()>1){
 			

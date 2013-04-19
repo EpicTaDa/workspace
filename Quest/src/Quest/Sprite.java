@@ -16,15 +16,18 @@ public class Sprite implements KeyListener{
 	public Sprite(Animation a){
 		this.a = a;
 		
+		x = 50;
+		y = 40;
+		
 	}//Method
 	
 //CHANGE POSITION
-	public void update(long timePassed){
+	public void update(){
 		
-		x += vx * 500;
-		y += vy * 500;
+		x += vx;
+		y += vy;
 		
-		a.update(timePassed);
+		a.update();
 		
 	}//Method
 	
@@ -44,7 +47,7 @@ public class Sprite implements KeyListener{
 	}//Method
 	
 //SET SPRITE Y POSITION
-	public void setY(float x){
+	public void setY(float y){
 		this.y = y;
 	}//Method
 	
@@ -69,13 +72,15 @@ public class Sprite implements KeyListener{
 	}
 	
 //SET X VELOCITY
-	public void setVelocityX(float vx){
-		this.vx = vx;
+	public void setVelocityX(float vx_1){
+		this.vx = vx_1;
+		vx = vx_1;
 	}
 		
 //SET Y VELOCITY
-	public void setVelocityY(float vy){
-		this.vy = vy;
+	public void setVelocityY(float vy_1){
+		this.vy = vy_1;
+		vy = vy_1;
 	}
 	
 //GET SPRITE/IMAGE
@@ -83,47 +88,49 @@ public class Sprite implements KeyListener{
 		return a.getImage();
 	}
 
+	//KEY Released
+	public void keyReleased(KeyEvent e){
+				
+			int key= e.getKeyCode();
+		
+			if(key == KeyEvent.VK_UP){
+				vy = 0;
+			}
+			if(key == KeyEvent.VK_DOWN){
+				vy = 0;
+			}
+			if(key == KeyEvent.VK_RIGHT){
+				vx = 0;
+			}
+			if(key == KeyEvent.VK_LEFT){
+				vx = 0;
+			}
+			
+			update();
+			e.consume();
+	}//Method
+	
 //KEY PRESSED
 	public void keyPressed(KeyEvent e){
 		
 			int key= e.getKeyCode();
 		
 			if(key == KeyEvent.VK_UP){
-				vy = 0.001f;
+				vy = 0.1f;
 			}
 			if(key == KeyEvent.VK_DOWN){
-				vy = 0.001f;
+				vy = 0.1f;
 			}
 			if(key == KeyEvent.VK_RIGHT){
-				vx = 0.001f;
+				vx = 0.1f;
 			}
 			if(key == KeyEvent.VK_LEFT){
-				vx = -0.001f;
+				vx = -0.1f;
 			}
 		
 			e.consume();
 	}//Method
 	
-//KEY PRESSED
-	public void keyReleased(KeyEvent e){
-			
-			int key= e.getKeyCode();
-		
-			if(key == KeyEvent.VK_UP){
-				vy = 0;
-			}
-			if(key == KeyEvent.VK_DOWN){
-				vy = 0;
-			}
-			if(key == KeyEvent.VK_RIGHT){
-				vx = 0;
-			}
-			if(key == KeyEvent.VK_LEFT){
-				vx = 0;
-			}
-		
-			e.consume();
-	}//Method
 	
 	public void keyTyped(KeyEvent e){
 		e.consume();

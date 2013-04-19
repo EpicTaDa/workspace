@@ -17,7 +17,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		addKeyListener(new TAdapter());
 		setFocusable(true);
-		
+		setDoubleBuffered(true);
 	}
 	
 	public static void main(String[] args){
@@ -86,12 +86,13 @@ public class Quest_Main extends JPanel implements ActionListener{
 			
 			long timePassed = System.currentTimeMillis() - startingTime;
 			cumTime += timePassed;
-			update(timePassed);
+			update();
 			
 	//DRAW SCREEN
 			Graphics2D g = s.getGraphics();
 			draw(g);
 			g.dispose();
+			sprite.update();
 			s.update();
 			
 			try{
@@ -108,19 +109,17 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void draw(Graphics g){
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
-		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), null);
+		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()), null);
 		
 	}
 	
 //MAIN SPRITE POS
-	public void update(long timePassed){
+	public void update(){
 		
 		Graphics2D g = s.getGraphics();
 		
-		if(sprite.getX() < 0){
-			
-			sprite.setX(0);
-		
+		if(sprite.getX() < 0){	
+			sprite.setX(1);	
 		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()){
 			sprite.setX(s.getWidth());
 			
@@ -128,7 +127,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		if(sprite.getY() < 0){
 			
-			sprite.setY(0);
+			sprite.setY(1);
 		
 		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()){
 			
@@ -136,7 +135,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 			
 		}
 		
-		sprite.update(timePassed);
+		sprite.update();
 		draw(g);
 		
 	}//Method
@@ -145,10 +144,9 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		Graphics2D g = s.getGraphics();
 		
-		update(timePassed);
+		update();
 		draw(g);
 		g.dispose();
-		s.update();
 		
 	}
 	
