@@ -12,6 +12,8 @@ public class Sprite implements KeyListener{
 	private float vx;
 	private float vy;
 	
+	Quest_Main Quest = new Quest_Main();
+	
 //CONSTRUCTOR
 	public Sprite(Animation a){
 		this.a = a;
@@ -105,6 +107,9 @@ public class Sprite implements KeyListener{
 			if(key == KeyEvent.VK_LEFT){
 				vx = 0;
 			}
+			if(key == KeyEvent.VK_ESCAPE){
+				Quest.setIngameFalse();
+			}
 			
 			update();
 			e.consume();
@@ -116,16 +121,19 @@ public class Sprite implements KeyListener{
 			int key= e.getKeyCode();
 		
 			if(key == KeyEvent.VK_UP){
-				vy = 0.1f;
+				vy = -1f;
 			}
 			if(key == KeyEvent.VK_DOWN){
-				vy = 0.1f;
+				vy = 1f;
 			}
 			if(key == KeyEvent.VK_RIGHT){
-				vx = 0.1f;
+				vx = 1f;
 			}
 			if(key == KeyEvent.VK_LEFT){
-				vx = -0.1f;
+				vx = -1f;
+			}
+			if(key == KeyEvent.VK_ESCAPE){
+				Quest.setIngameFalse();
 			}
 		
 			e.consume();

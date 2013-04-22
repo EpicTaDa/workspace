@@ -12,13 +12,6 @@ import Inherit.Core;
 import javax.swing.JPanel;
 
 public class Quest_Main extends JPanel implements ActionListener{
-
-	public Quest_Main(){
-		
-		addKeyListener(new TAdapter());
-		setFocusable(true);
-		setDoubleBuffered(true);
-	}
 	
 	public static void main(String[] args){
 		
@@ -26,7 +19,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		main.run();
 		
 	}//Main
-
+	
 //VARIABLE INITZ
 	private Sprite sprite;
 	private Animation a;
@@ -41,6 +34,8 @@ public class Quest_Main extends JPanel implements ActionListener{
 		new DisplayMode(640,480,24,0),
 		new DisplayMode(640,480,16,0)
 	};
+	
+	private boolean ingame;
 
 //IMAGE LOADER
 	public void loadImages(){
@@ -61,6 +56,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void run(){
 		
 		s = new ScreenManager();
+		ingame = true;
 		
 		try{
 			
@@ -79,10 +75,15 @@ public class Quest_Main extends JPanel implements ActionListener{
 //PLAY MOVIE
 	public void movieLoop(){
 		
+		Window w = s.getFullScreenWindow();
+		
+		w.addKeyListener(new TAdapter());
+		w.setFocusable(true);
+		
 		long startingTime = System.currentTimeMillis();
 		long cumTime = startingTime;
 		
-		while(cumTime - startingTime < 10000000){
+		while(ingame == true){
 			
 			long timePassed = System.currentTimeMillis() - startingTime;
 			cumTime += timePassed;
@@ -110,7 +111,10 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()), null);
-		
+	}
+	
+	public void setIngameFalse(){
+		this.ingame = false;
 	}
 	
 //MAIN SPRITE POS
@@ -143,8 +147,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		Graphics2D g = s.getGraphics();
-		
-		update();
+
 		draw(g);
 		g.dispose();
 		
@@ -153,18 +156,25 @@ public class Quest_Main extends JPanel implements ActionListener{
 //INNER ADAPTER CLASS
 	
 	private class TAdapter extends KeyAdapter {
-	
+		
+		public TAdapter(){
+			setFocusable(true);
+		}
+		
         public void keyReleased(KeyEvent e){
         	System.out.println("stas");
             sprite.keyReleased(e);
+            e.consume();
         }
         
         public void keyPressed(KeyEvent e){
         	System.out.println("stas");
             sprite.keyPressed(e);
+            e.consume();
         }
         
         public void keyTyped(KeyEvent e) {
+        	e.consume();
         } 
 	}
 	
