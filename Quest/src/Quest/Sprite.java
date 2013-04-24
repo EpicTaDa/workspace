@@ -55,8 +55,8 @@ public class Sprite implements KeyListener{
 //CHANGE POSITION
 	public void update(){
 		
-		x += vx;
-		y += vy;
+		if(attack)
+			a.update();
 		
 		if(walk_up)
 			wUp.update();
@@ -78,8 +78,8 @@ public class Sprite implements KeyListener{
 		else
 			wDown.setStanding();
 		
-		if(attack)
-			a.update();
+		x += vx;
+		y += vy;
 		
 	}//Method
 	
@@ -145,11 +145,6 @@ public class Sprite implements KeyListener{
 			vx = 0;
 			vy = 0;
 			
-			walk_left = false;
-			walk_right = false;
-			walk_down = false;
-			walk_up = false;
-			
 			if(keyIndex == 4){
 				a.attackLeft();
 				return a.getImage();
@@ -167,27 +162,44 @@ public class Sprite implements KeyListener{
 				return a.getImage();
 			}
 			
+		}else if(attack != true){
+			
+		if(walk_left){
+			vx = -2;
+			return wLeft.getImage();
+		}
+		if(walk_up){
+			vy = -2;
+			return wUp.getImage();
+		}
+		if(walk_right){
+			vx = 2;
+			return wRight.getImage();
+		}
+		if(walk_down){
+			vy = 2;
+			return wDown.getImage();
 		}
 		
-		if(walk_left)
-			return wLeft.getImage();
-		if(walk_up)
-			return wUp.getImage();
-		if(walk_right)
-			return wRight.getImage();
-		if(walk_down)
-			return wDown.getImage();
 		
-		if(keyIndex == 4)
+		if(keyIndex == 4){
+			vx = 0;
 			return wLeft.getImage();
-		if(keyIndex == 1)
+		}
+		if(keyIndex == 1){
+			vy = 0;
 			return wUp.getImage();
-		if(keyIndex == 3)
+		}
+		if(keyIndex == 3){
+			vx = 0;
 			return wRight.getImage();
-		if(keyIndex == 2)
+		}
+		if(keyIndex == 2){
+			vy = 0;
 			return wDown.getImage();
-			
+		}
 		
+		}
 		return wDown.getImage();
 	}
 	
@@ -197,23 +209,23 @@ public class Sprite implements KeyListener{
 			int key = e.getKeyCode();
 				
 				if(key == KeyEvent.VK_UP){
-					vy = -2f;
 					walk_up = true;
+					vy = -2f;
 					keyIndex = 1;
 				}
 				if(key == KeyEvent.VK_DOWN){
-					vy = 2f;
 					walk_down = true;
+					vy = 2f;
 					keyIndex = 2;
 				}
 				if(key == KeyEvent.VK_RIGHT){
-					vx = 2f;
 					walk_right = true;
+					vx = 2f;
 					keyIndex = 3;
 				}
 				if(key == KeyEvent.VK_LEFT){
-					vx = -2f;
 					walk_left = true;
+					vx = -2f;
 					keyIndex = 4;
 				}
 				
