@@ -4,19 +4,35 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Anim.WalkDown;
+import Anim.WalkUp;
+import Anim.WalkLeft;
+import Anim.WalkRight;
+
 public class Sprite implements KeyListener{
 
-	private Animation a;
-	private float x;
-	private float y;
+	private WalkUp wUp;
+	private WalkLeft wLeft;
+	private WalkRight wRight;
+	private WalkDown wDown;
+	private int x;
+	private int y;
 	private float vx;
 	private float vy;
+	private boolean walk_up;
+	private boolean walk_left;
+	private boolean walk_down;
+	private boolean walk_right;
 	
 	Quest_Main Quest = new Quest_Main();
 	
 //CONSTRUCTOR
-	public Sprite(Animation a){
-		this.a = a;
+	public Sprite(WalkUp wUp, WalkLeft wLeft, WalkRight wRight, WalkDown wDown){
+		
+		this.wUp = wUp;
+		this.wLeft = wLeft;
+		this.wRight = wRight;
+		this.wDown = wDown;
 		
 		x = 50;
 		y = 40;
@@ -29,7 +45,26 @@ public class Sprite implements KeyListener{
 		x += vx;
 		y += vy;
 		
-		a.update();
+		if(walk_up == true)
+			wUp.update();
+		else
+			wUp.setStanding();
+		
+		if(walk_left == true && walk_up != true)
+			wLeft.update();
+		else
+			wLeft.setStanding();
+		
+		if(walk_right == true && walk_up != true)
+			wRight.update();
+		else
+			wRight.setStanding();
+		
+		if(walk_down == true && walk_up != true)
+			wDown.update();
+		else
+			wDown.setStanding();
+		
 		
 	}//Method
 	
@@ -44,23 +79,25 @@ public class Sprite implements KeyListener{
 	}//Method
 	
 //SET SPRITE X POSITION
-	public void setX(float x){
-		this.x = x;
+	public void setX(int x){
+		x = this.x;
+		
 	}//Method
 	
 //SET SPRITE Y POSITION
-	public void setY(float y){
+	public void setY(int y){
 		this.y = y;
 	}//Method
 	
 //GET SPRITE WIDTH
 	public int getWidth(){
-		return a.getImage().getWidth(null);
+		return wUp.getImage().getWidth(null);
+			
 	}//Method
 	
 //GET SPRITE WIDTH
 	public int getHeight(){
-		return a.getImage().getHeight(null);
+		return wUp.getImage().getHeight(null);
 	}//Method
 	
 //GET X VELOCITY
@@ -87,7 +124,20 @@ public class Sprite implements KeyListener{
 	
 //GET SPRITE/IMAGE
 	public Image getImage(){
-		return a.getImage();
+		
+		if(walk_left == true)
+			return wLeft.getImage();
+		
+		if(walk_up == true)
+			return wUp.getImage();
+		
+		if(walk_right == true)
+			return wRight.getImage();
+		
+		if(walk_down == true)
+			return wDown.getImage();
+		
+		return wDown.getImage();
 	}
 
 	//KEY Released
@@ -97,15 +147,19 @@ public class Sprite implements KeyListener{
 		
 			if(key == KeyEvent.VK_UP){
 				vy = 0;
+				walk_up = false;
 			}
 			if(key == KeyEvent.VK_DOWN){
 				vy = 0;
+				walk_down = false;
 			}
 			if(key == KeyEvent.VK_RIGHT){
 				vx = 0;
+				walk_right = false;
 			}
 			if(key == KeyEvent.VK_LEFT){
 				vx = 0;
+				walk_left = false;
 			}
 			if(key == KeyEvent.VK_ESCAPE){
 				Quest.setIngameFalse();
@@ -122,15 +176,19 @@ public class Sprite implements KeyListener{
 		
 			if(key == KeyEvent.VK_UP){
 				vy = -1f;
+				walk_up = true;
 			}
 			if(key == KeyEvent.VK_DOWN){
-				vy = 1f;
+				vy = 5f;
+				walk_down = true;
 			}
 			if(key == KeyEvent.VK_RIGHT){
-				vx = 1f;
+				vx = 5f;
+				walk_right = true;
 			}
 			if(key == KeyEvent.VK_LEFT){
 				vx = -1f;
+				walk_left = true;
 			}
 			if(key == KeyEvent.VK_ESCAPE){
 				Quest.setIngameFalse();

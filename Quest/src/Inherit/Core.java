@@ -3,7 +3,6 @@ package Inherit;
 import java.awt.*;
 import javax.swing.*;
 
-import Quest.ScreenManager;
 
 public abstract class Core {
 

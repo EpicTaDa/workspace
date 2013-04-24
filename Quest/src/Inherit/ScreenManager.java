@@ -1,4 +1,4 @@
-package Quest;
+package Inherit;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;

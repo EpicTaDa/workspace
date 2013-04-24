@@ -1,9 +1,9 @@
-package Quest;
+package Anim;
 
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class Animation{
+public class WalkUp{
 
 	private ArrayList scenes;
 	private int sceneIndex;
@@ -12,7 +12,7 @@ public class Animation{
 	private int timePassed;
 
 //CONSTRUCTOR
-	public Animation(){
+	public WalkUp(){
 		
 		scenes = new ArrayList();
 		totalTime = 0;
@@ -26,6 +26,14 @@ public class Animation{
 		totalTime += t;
 		scenes.add(new OneScene(i, totalTime));
 		
+	}//Method
+	
+//REMOVE SCENE
+	public synchronized void removeScene(Image i, long t){
+			
+		totalTime += t;
+		scenes.remove(new OneScene(i, totalTime));
+			
 	}//Method
 	
 //START ANIMATION
@@ -57,6 +65,12 @@ public class Animation{
 		
 		
 	}//Method
+	
+	public synchronized void setStanding(){
+		
+		sceneIndex = 1;
+		
+	}
 	
 //GET CURRENT ANIMATION SCENE
 	public synchronized Image getImage(){
