@@ -5,8 +5,8 @@ import java.util.ArrayList;
 
 @SuppressWarnings("all")
 
-public class WalkLeft{
-
+public class Attack{
+	
 	private ArrayList scenes;
 	private int sceneIndex;
 	private long movieTime;
@@ -14,7 +14,7 @@ public class WalkLeft{
 	private int timePassed;
 
 //CONSTRUCTOR
-	public WalkLeft(){
+	public Attack(){
 		
 		scenes = new ArrayList();
 		totalTime = 0;
@@ -38,31 +38,37 @@ public class WalkLeft{
 		
 	}//Method
 	
-//CHANGE SCENES
-	public synchronized void update(){
-		
-		if(scenes.size()>1){
-			
-			movieTime += 500;
-			
-			if(movieTime >= totalTime){
-				movieTime = 0;
-				sceneIndex = 0;
-			}
-			
-			while(movieTime > getScene(sceneIndex).endTime){
-				
-				sceneIndex++;
-			}
-			
-		}
-		
-		
-	}//Method
+	public void attackLeft(){
+		sceneIndex = 0;
+	}
 	
-	public synchronized void setStanding(){
+	public void attackRight(){
 		sceneIndex = 1;
 	}
+
+	public void attackUp(){
+		sceneIndex = 2;
+	}
+	
+	public void attackDown(){
+		sceneIndex = 3;
+	}
+	
+	//CHANGE SCENES
+		public synchronized void update(){
+			
+			if(scenes.size()>1){
+				
+				movieTime += 500;
+				
+				if(movieTime >= totalTime){
+					movieTime = 0;
+					sceneIndex = 0;
+				}
+
+			}			
+			
+		}//Method
 	
 //GET CURRENT ANIMATION SCENE
 	public synchronized Image getImage(){
@@ -96,3 +102,5 @@ public class WalkLeft{
 	}
 	
 }//Class
+
+

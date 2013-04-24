@@ -3,8 +3,10 @@ package Anim;
 import java.awt.Image;
 import java.util.ArrayList;
 
-public class WalkDown{
+@SuppressWarnings("all")
 
+public class WalkDown{
+	
 	private ArrayList scenes;
 	private int sceneIndex;
 	private long movieTime;

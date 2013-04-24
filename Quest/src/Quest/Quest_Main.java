@@ -9,6 +9,7 @@ import java.awt.event.KeyAdapter;
 
 import javax.swing.ImageIcon;
 
+import Anim.Attack;
 import Anim.WalkUp;
 import Anim.WalkDown;
 import Anim.WalkLeft;
@@ -17,6 +18,8 @@ import Inherit.Core;
 import Inherit.ScreenManager;
 
 import javax.swing.JPanel;
+
+@SuppressWarnings("all")
 
 public class Quest_Main extends JPanel implements ActionListener{
 	
@@ -33,6 +36,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private WalkLeft wLeft;
 	private WalkRight wRight;
 	private WalkDown wDown;
+	private Attack a;
 	private ScreenManager s;
 	private Image bg;
 	private long timePassed;
@@ -40,9 +44,6 @@ public class Quest_Main extends JPanel implements ActionListener{
 		new DisplayMode(800,600,32,0),
 		new DisplayMode(800,600,24,0),
 		new DisplayMode(800,600,16,0),
-		new DisplayMode(640,480,32,0),
-		new DisplayMode(640,480,24,0),
-		new DisplayMode(640,480,16,0)
 	};
 	
 	private boolean ingame;
@@ -68,10 +69,21 @@ public class Quest_Main extends JPanel implements ActionListener{
 		Image step1Down = new ImageIcon(".\\src\\Images\\step1Down.png").getImage();
 		Image step2Down = new ImageIcon(".\\src\\Images\\step2Down.png").getImage();
 		
+		Image attackLeft = new ImageIcon(".\\src\\Images\\attackLeft.png").getImage();
+		Image attackRight = new ImageIcon(".\\src\\Images\\attackRight.png").getImage();
+		Image attackDown = new ImageIcon(".\\src\\Images\\attackDown.png").getImage();
+		Image attackUp = new ImageIcon(".\\src\\Images\\attackUp.png").getImage();
+		
 		wUp = new WalkUp();
 		wUp.addScene(step1Up, 5000);
 		wUp.addScene(standUp, 5000);
 		wUp.addScene(step2Up, 5000);
+		
+		a = new Attack();
+		a.addScene(attackLeft, 5000);
+		a.addScene(attackRight, 5000);
+		a.addScene(attackUp, 5000);
+		a.addScene(attackDown, 5000);
 		
 		wLeft = new WalkLeft();
 		wLeft.addScene(step1Left, 5000);
@@ -93,7 +105,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		wRight.setStanding();
 		wUp.setStanding();
 		
-		sprite = new Sprite(wUp, wLeft, wRight, wDown);
+		sprite = new Sprite(wUp, wLeft, wRight, wDown, a);
 		
 	}//Method
 
@@ -147,7 +159,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 			}catch(Exception ex){}
 			
 		}
-		
+		s.restoreScreen();
 		
 	}//Method
 	
@@ -155,7 +167,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void draw(Graphics g){
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
-		g.drawImage(sprite.getImage(), Math.round(sprite.getX()), Math.round(sprite.getY()), null);
+		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 
 		
 	}
@@ -168,20 +180,22 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void update(){
 		
 		Graphics2D g = s.getGraphics();	
-	 	if(sprite.getX() < 0){	
-			sprite.setX(1);	
-		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()-200){
-			sprite.setX(s.getWidth()+70);
+	 	if(sprite.getX() < 10){	
+	 		
+			sprite.setX(10);
+			
+		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()*0.97){
+			sprite.setX((s.getWidth()-sprite.getWidth())*0.97);
 			
 		}
 		
-		if(sprite.getY() < 0){
+		if(sprite.getY() < -10){
 			
-			sprite.setY(1);
+			sprite.setY(-9);
 		
-		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()-20){
+		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()*0.95){
 			
-			sprite.setY(s.getHeight()-60);
+			sprite.setY((s.getHeight()-sprite.getHeight())*0.95);
 			
 		}
 		

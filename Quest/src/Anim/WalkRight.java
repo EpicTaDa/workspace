@@ -3,6 +3,8 @@ package Anim;
 import java.awt.Image;
 import java.util.ArrayList;
 
+@SuppressWarnings("all")
+
 public class WalkRight{
 
 	private ArrayList scenes;

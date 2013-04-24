@@ -6,6 +6,8 @@ import java.awt.image.BufferedImage;
 import java.lang.reflect.InvocationTargetException;
 import javax.swing.JFrame;
 
+@SuppressWarnings("all")
+
 public class ScreenManager {
 	
 	private GraphicsDevice vc;

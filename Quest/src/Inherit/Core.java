@@ -3,6 +3,7 @@ package Inherit;
 import java.awt.*;
 import javax.swing.*;
 
+@SuppressWarnings("all")
 
 public abstract class Core {
 

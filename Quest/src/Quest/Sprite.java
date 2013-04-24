@@ -4,10 +4,14 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import Anim.Attack;
 import Anim.WalkDown;
 import Anim.WalkUp;
 import Anim.WalkLeft;
 import Anim.WalkRight;
+import Inherit.ScreenManager;
+
+@SuppressWarnings("all")
 
 public class Sprite implements KeyListener{
 
@@ -15,27 +19,36 @@ public class Sprite implements KeyListener{
 	private WalkLeft wLeft;
 	private WalkRight wRight;
 	private WalkDown wDown;
-	private int x;
-	private int y;
+	private Attack a;
+	private double x;
+	private double y;
 	private float vx;
 	private float vy;
+	private int keyIndex;
 	private boolean walk_up;
 	private boolean walk_left;
 	private boolean walk_down;
 	private boolean walk_right;
+	private boolean attack;
+	private boolean can_attack;
+	private KeyEvent re;
+	
+	private ScreenManager s = new ScreenManager();
 	
 	Quest_Main Quest = new Quest_Main();
 	
 //CONSTRUCTOR
-	public Sprite(WalkUp wUp, WalkLeft wLeft, WalkRight wRight, WalkDown wDown){
+	public Sprite(WalkUp wUp, WalkLeft wLeft, WalkRight wRight, WalkDown wDown, Attack a){
 		
 		this.wUp = wUp;
 		this.wLeft = wLeft;
 		this.wRight = wRight;
 		this.wDown = wDown;
+		this.a = a;
 		
 		x = 50;
 		y = 40;
+
 		
 	}//Method
 	
@@ -45,47 +58,49 @@ public class Sprite implements KeyListener{
 		x += vx;
 		y += vy;
 		
-		if(walk_up == true)
+		if(walk_up)
 			wUp.update();
 		else
 			wUp.setStanding();
 		
-		if(walk_left == true && walk_up != true)
+		if(walk_left)
 			wLeft.update();
 		else
 			wLeft.setStanding();
 		
-		if(walk_right == true && walk_up != true)
+		if(walk_right)
 			wRight.update();
 		else
 			wRight.setStanding();
 		
-		if(walk_down == true && walk_up != true)
+		if(walk_down)
 			wDown.update();
 		else
 			wDown.setStanding();
 		
+		if(attack)
+			a.update();
 		
 	}//Method
 	
 //GET X POSITION
-	public float getX(){
+	public double getX(){
 		return x;
 	}//Method
 	
 //GET Y POSITION
-	public float getY(){
+	public double getY(){
 		return y;
 	}//Method
 	
 //SET SPRITE X POSITION
-	public void setX(int x){
-		x = this.x;
+	public void setX(double x){
+		this.x = x;
 		
 	}//Method
 	
 //SET SPRITE Y POSITION
-	public void setY(int y){
+	public void setY(double y){
 		this.y = y;
 	}//Method
 	
@@ -125,26 +140,98 @@ public class Sprite implements KeyListener{
 //GET SPRITE/IMAGE
 	public Image getImage(){
 		
-		if(walk_left == true)
+		if(attack){
+			
+			vx = 0;
+			vy = 0;
+			
+			walk_left = false;
+			walk_right = false;
+			walk_down = false;
+			walk_up = false;
+			
+			if(keyIndex == 4){
+				a.attackLeft();
+				return a.getImage();
+			}
+			if(keyIndex == 3){
+				a.attackRight();
+				return a.getImage();
+			}
+			if(keyIndex == 1){
+				a.attackUp();
+				return a.getImage();
+			}
+			if(keyIndex == 2){
+				a.attackDown();
+				return a.getImage();
+			}
+			
+		}
+		
+		if(walk_left)
 			return wLeft.getImage();
-		
-		if(walk_up == true)
+		if(walk_up)
 			return wUp.getImage();
-		
-		if(walk_right == true)
+		if(walk_right)
 			return wRight.getImage();
-		
-		if(walk_down == true)
+		if(walk_down)
 			return wDown.getImage();
+		
+		if(keyIndex == 4)
+			return wLeft.getImage();
+		if(keyIndex == 1)
+			return wUp.getImage();
+		if(keyIndex == 3)
+			return wRight.getImage();
+		if(keyIndex == 2)
+			return wDown.getImage();
+			
 		
 		return wDown.getImage();
 	}
-
+	
+//KEY PRESSED
+	public void keyPressed(KeyEvent e){
+			
+			int key = e.getKeyCode();
+				
+				if(key == KeyEvent.VK_UP){
+					vy = -2f;
+					walk_up = true;
+					keyIndex = 1;
+				}
+				if(key == KeyEvent.VK_DOWN){
+					vy = 2f;
+					walk_down = true;
+					keyIndex = 2;
+				}
+				if(key == KeyEvent.VK_RIGHT){
+					vx = 2f;
+					walk_right = true;
+					keyIndex = 3;
+				}
+				if(key == KeyEvent.VK_LEFT){
+					vx = -2f;
+					walk_left = true;
+					keyIndex = 4;
+				}
+				
+				if(key == KeyEvent.VK_SPACE){
+					attack = true;
+				}
+				
+				if(key == KeyEvent.VK_ESCAPE){
+						s.restoreScreen();
+				}
+		
+	}//Method
+	
 	//KEY Released
 	public void keyReleased(KeyEvent e){
 				
 			int key= e.getKeyCode();
-		
+			
 			if(key == KeyEvent.VK_UP){
 				vy = 0;
 				walk_up = false;
@@ -161,45 +248,14 @@ public class Sprite implements KeyListener{
 				vx = 0;
 				walk_left = false;
 			}
-			if(key == KeyEvent.VK_ESCAPE){
-				Quest.setIngameFalse();
+			if(key == KeyEvent.VK_SPACE){
+				attack = false;
 			}
 			
 			update();
-			e.consume();
 	}//Method
-	
-//KEY PRESSED
-	public void keyPressed(KeyEvent e){
-		
-			int key= e.getKeyCode();
-		
-			if(key == KeyEvent.VK_UP){
-				vy = -1f;
-				walk_up = true;
-			}
-			if(key == KeyEvent.VK_DOWN){
-				vy = 5f;
-				walk_down = true;
-			}
-			if(key == KeyEvent.VK_RIGHT){
-				vx = 5f;
-				walk_right = true;
-			}
-			if(key == KeyEvent.VK_LEFT){
-				vx = -1f;
-				walk_left = true;
-			}
-			if(key == KeyEvent.VK_ESCAPE){
-				Quest.setIngameFalse();
-			}
-		
-			e.consume();
-	}//Method
-	
 	
 	public void keyTyped(KeyEvent e){
-		e.consume();
 	}
 		
 }//CLASS
