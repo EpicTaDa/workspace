@@ -39,6 +39,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private Attack a;
 	private ScreenManager s;
 	private Image bg;
+	private SlimeSprite slimeSprite;
 	private long timePassed;
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,0),
@@ -74,6 +75,8 @@ public class Quest_Main extends JPanel implements ActionListener{
 		Image attackDown = new ImageIcon(".\\src\\Images\\attackDown.png").getImage();
 		Image attackUp = new ImageIcon(".\\src\\Images\\attackUp.png").getImage();
 		
+		Image slimeImg = new ImageIcon(".\\src\\Images\\slime.png").getImage();
+		
 		wUp = new WalkUp();
 		wUp.addScene(step1Up, 5000);
 		wUp.addScene(standUp, 5000);
@@ -106,6 +109,8 @@ public class Quest_Main extends JPanel implements ActionListener{
 		wUp.setStanding();
 		
 		sprite = new Sprite(wUp, wLeft, wRight, wDown, a);
+		
+		slimeSprite = new SlimeSprite(slimeImg);
 		
 	}//Method
 
@@ -140,7 +145,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		long startingTime = System.currentTimeMillis();
 		long cumTime = startingTime;
 		
-		while(ingame == true){
+		while(ingame){
 			
 			long timePassed = System.currentTimeMillis() - startingTime;
 			cumTime += timePassed;
@@ -151,12 +156,12 @@ public class Quest_Main extends JPanel implements ActionListener{
 			draw(g);
 			g.dispose();
 			sprite.update();
+			slimeSprite.update();
 			s.update();
 			
-			try{
-				
-				Thread.sleep(20);
-			}catch(Exception ex){}
+			try {
+				Thread.sleep(15);
+			} catch (Exception ex) {}
 			
 		}
 		s.restoreScreen();
@@ -168,6 +173,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
+		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
 
 		
 	}

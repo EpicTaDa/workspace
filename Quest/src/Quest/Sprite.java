@@ -30,7 +30,6 @@ public class Sprite implements KeyListener{
 	private boolean walk_down;
 	private boolean walk_right;
 	private boolean attack;
-	private boolean can_attack;
 	private KeyEvent re;
 	
 	private ScreenManager s = new ScreenManager();
