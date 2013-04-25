@@ -222,13 +222,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 		}
 		
         public void keyReleased(KeyEvent e){
-        	System.out.println("stas");
             sprite.keyReleased(e);
             e.consume();
         }
         
         public void keyPressed(KeyEvent e){
-        	System.out.println("stas");
             sprite.keyPressed(e);
             e.consume();
         }

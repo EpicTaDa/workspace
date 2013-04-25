@@ -54,22 +54,6 @@ public class Attack{
 		sceneIndex = 3;
 	}
 	
-	//CHANGE SCENES
-		public synchronized void update(){
-			
-			if(scenes.size()>1){
-				
-				movieTime += 500;
-				
-				if(movieTime >= totalTime){
-					movieTime = 0;
-					sceneIndex = 0;
-				}
-
-			}			
-			
-		}//Method
-	
 //GET CURRENT ANIMATION SCENE
 	public synchronized Image getImage(){
 		

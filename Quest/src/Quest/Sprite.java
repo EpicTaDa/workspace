@@ -35,8 +35,6 @@ public class Sprite implements KeyListener{
 	
 	private ScreenManager s = new ScreenManager();
 	
-	Quest_Main Quest = new Quest_Main();
-	
 //CONSTRUCTOR
 	public Sprite(WalkUp wUp, WalkLeft wLeft, WalkRight wRight, WalkDown wDown, Attack a){
 		
@@ -54,9 +52,6 @@ public class Sprite implements KeyListener{
 	
 //CHANGE POSITION
 	public void update(){
-		
-		if(attack)
-			a.update();
 		
 		if(walk_up)
 			wUp.update();
@@ -162,22 +157,26 @@ public class Sprite implements KeyListener{
 				return a.getImage();
 			}
 			
-		}else if(attack != true){
+		}
 			
 		if(walk_left){
 			vx = -2;
+			keyIndex = 4;
 			return wLeft.getImage();
 		}
 		if(walk_up){
 			vy = -2;
+			keyIndex = 1;
 			return wUp.getImage();
 		}
 		if(walk_right){
 			vx = 2;
+			keyIndex = 3;
 			return wRight.getImage();
 		}
 		if(walk_down){
 			vy = 2;
+			keyIndex = 2;
 			return wDown.getImage();
 		}
 		
@@ -199,7 +198,7 @@ public class Sprite implements KeyListener{
 			return wDown.getImage();
 		}
 		
-		}
+		
 		return wDown.getImage();
 	}
 	
@@ -264,7 +263,6 @@ public class Sprite implements KeyListener{
 				attack = false;
 			}
 			
-			update();
 	}//Method
 	
 	public void keyTyped(KeyEvent e){
