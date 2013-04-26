@@ -155,13 +155,8 @@ public class Quest_Main extends JPanel implements ActionListener{
 			Graphics2D g = s.getGraphics();
 			draw(g);
 			g.dispose();
-			sprite.update();
 			slimeSprite.update();
 			s.update();
-			
-			try {
-				Thread.sleep(15);
-			} catch (Exception ex) {}
 			
 		}
 		s.restoreScreen();
@@ -205,6 +200,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 			
 		}
 		
+		slimeSprite.update();
 		sprite.update();
 		draw(g);
 		
@@ -213,7 +209,6 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		
 		Graphics2D g = s.getGraphics();
-
 		draw(g);
 		g.dispose();
 		

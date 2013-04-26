@@ -75,6 +75,10 @@ public class Sprite implements KeyListener{
 		x += vx;
 		y += vy;
 		
+		try {
+			Thread.sleep(5);
+		} catch (Exception ex) {}
+		
 	}//Method
 	
 //GET X POSITION
@@ -159,22 +163,22 @@ public class Sprite implements KeyListener{
 		}
 			
 		if(walk_left){
-			vx = -2;
+			vx = -1;
 			keyIndex = 4;
 			return wLeft.getImage();
 		}
 		if(walk_up){
-			vy = -2;
+			vy = -1;
 			keyIndex = 1;
 			return wUp.getImage();
 		}
 		if(walk_right){
-			vx = 2;
+			vx = 1;
 			keyIndex = 3;
 			return wRight.getImage();
 		}
 		if(walk_down){
-			vy = 2;
+			vy = 1;
 			keyIndex = 2;
 			return wDown.getImage();
 		}
@@ -208,22 +212,22 @@ public class Sprite implements KeyListener{
 				
 				if(key == KeyEvent.VK_UP){
 					walk_up = true;
-					vy = -2f;
+					vy = -1f;
 					keyIndex = 1;
 				}
 				if(key == KeyEvent.VK_DOWN){
 					walk_down = true;
-					vy = 2f;
+					vy = 1f;
 					keyIndex = 2;
 				}
 				if(key == KeyEvent.VK_RIGHT){
 					walk_right = true;
-					vx = 2f;
+					vx = 1f;
 					keyIndex = 3;
 				}
 				if(key == KeyEvent.VK_LEFT){
 					walk_left = true;
-					vx = -2f;
+					vx = -1f;
 					keyIndex = 4;
 				}
 				

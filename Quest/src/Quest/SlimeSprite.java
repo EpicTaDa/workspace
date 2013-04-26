@@ -15,7 +15,6 @@ public class SlimeSprite {
 	private Image img;
 	private double timer;
 	private double timerStart;
-	private int counter;
 	
 	private ScreenManager s = new ScreenManager();
 	
@@ -32,17 +31,9 @@ public class SlimeSprite {
 	public void update(){
 		
 		movement();
-	
-		if(timer == 0){
-			
-			x += vx;
-			y += vy;
-			
-			timer = 0;
-		}else if(timer > 500)
-			timer = -1;
 		
-		timer += 1;
+		y += vy;
+		x += vx;
 
 	}
 	
@@ -108,8 +99,23 @@ public class SlimeSprite {
 		public void movement(){
 			
 			Random rnd = new Random();
-			vx = rnd.nextInt(2) - 2;
-			vy = rnd.nextInt(2) - 2;
+			
+			if(timer <= 1 && timer >= 0){
+				
+				vx = rnd.nextFloat() - rnd.nextFloat();
+				vy = rnd.nextFloat() - rnd.nextFloat();
+				
+			}else if(timer <= 250 && timer >= 50){
+				
+				vx = 0;
+				vy = 0;
+				
+			}else if(timer > 251)
+				timer = -1;
+
+			timer ++;
+			
+			
 		}
 		
 	
