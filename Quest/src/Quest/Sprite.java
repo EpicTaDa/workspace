@@ -3,7 +3,9 @@ import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.util.ArrayList;
 
+import Anim.Arrow_Spell;
 import Anim.Attack;
 import Anim.WalkDown;
 import Anim.WalkUp;
@@ -31,6 +33,7 @@ public class Sprite implements KeyListener{
 	private boolean walk_right;
 	private boolean attack;
 	private boolean attackBow;
+	private ArrayList arrows;
 	private KeyEvent re;
 	
 	private ScreenManager s = new ScreenManager();
@@ -43,6 +46,8 @@ public class Sprite implements KeyListener{
 		this.wRight = wRight;
 		this.wDown = wDown;
 		this.a = a;
+		
+		arrows = new ArrayList();
 		
 		x = 50;
 		y = 40;
@@ -136,6 +141,10 @@ public class Sprite implements KeyListener{
 		vy = vy_1;
 	}
 	
+	public ArrayList getArrows(){
+		return arrows;
+	}
+	
 //GET SPRITE/IMAGE
 	public Image getImage(){
 		
@@ -165,6 +174,8 @@ public class Sprite implements KeyListener{
 			
 			vx = 0;
 			vy = 0;
+			
+			fire();
 			
 			if(keyIndex == 4){
 				a.bowLeft();
@@ -226,6 +237,12 @@ public class Sprite implements KeyListener{
 		
 		return wDown.getImage();
 	}
+	
+	public void fire() {
+		
+        arrows.add(new Arrow_Spell(this.x, this.y, keyIndex));
+        
+    }//PV_FIRE
 	
 //KEY PRESSED
 	public void keyPressed(KeyEvent e){

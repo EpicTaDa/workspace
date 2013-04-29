@@ -6,9 +6,11 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.KeyAdapter;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import Anim.Arrow_Spell;
 import Anim.Attack;
 import Anim.WalkUp;
 import Anim.WalkDown;
@@ -37,10 +39,15 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private WalkRight wRight;
 	private WalkDown wDown;
 	private Attack a;
+	private Arrow_Spell arrow;
 	private ScreenManager s;
 	private Image bg;
 	private SlimeSprite slimeSprite;
 	private long timePassed;
+	
+	private ArrayList slimes;
+	private ArrayList arrows;
+	
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,0),
 		new DisplayMode(800,600,24,0),
@@ -163,6 +170,14 @@ public class Quest_Main extends JPanel implements ActionListener{
 	//DRAW SCREEN
 			Graphics2D g = s.getGraphics();
 			draw(g);
+			
+			ArrayList arrows = sprite.getArrows();
+			
+			for(int i = 0; i < arrows.size(); i++){
+	            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+	            m.move(); 
+	        }//ForEND
+			
 			g.dispose();
 			slimeSprite.update();
 			s.update();
@@ -178,6 +193,13 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
+		
+		ArrayList arrows = sprite.getArrows();
+		
+		for(int i = 0; i < arrows.size(); i++){
+            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+            g.drawImage(m.getImage(), (int)m.getX(), (int)m.getY(), m.getWidth()*2, m.getHeight()*2, null); 
+        }//ForEND
 		
 	}
 	
