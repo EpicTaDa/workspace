@@ -75,6 +75,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 		Image attackDown = new ImageIcon(".\\src\\Images\\attackDown.png").getImage();
 		Image attackUp = new ImageIcon(".\\src\\Images\\attackUp.png").getImage();
 		
+		Image bowLeft = new ImageIcon(".\\src\\Images\\bowLeft.png").getImage();
+		Image bowRight = new ImageIcon(".\\src\\Images\\bowRight.png").getImage();
+		Image bowDown = new ImageIcon(".\\src\\Images\\bowDown.png").getImage();
+		Image bowUp = new ImageIcon(".\\src\\Images\\bowUp.png").getImage();
+		
 		Image slimeImg = new ImageIcon(".\\src\\Images\\slime.png").getImage();
 		
 		wUp = new WalkUp();
@@ -87,6 +92,10 @@ public class Quest_Main extends JPanel implements ActionListener{
 		a.addScene(attackRight, 5000);
 		a.addScene(attackUp, 5000);
 		a.addScene(attackDown, 5000);
+		a.addScene(bowLeft, 5000);
+		a.addScene(bowRight, 5000);
+		a.addScene(bowUp, 5000);
+		a.addScene(bowDown, 5000);
 		
 		wLeft = new WalkLeft();
 		wLeft.addScene(step1Left, 5000);
@@ -169,7 +178,6 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
-
 		
 	}
 	

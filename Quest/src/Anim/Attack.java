@@ -41,18 +41,30 @@ public class Attack{
 	public void attackLeft(){
 		sceneIndex = 0;
 	}
-	
 	public void attackRight(){
 		sceneIndex = 1;
 	}
-
 	public void attackUp(){
 		sceneIndex = 2;
 	}
-	
 	public void attackDown(){
 		sceneIndex = 3;
 	}
+	
+	
+	public void bowDown(){
+		sceneIndex = 7;
+	}
+	public void bowUp(){
+		sceneIndex = 6;
+	}
+	public void bowRight(){
+		sceneIndex = 5;
+	}
+	public void bowLeft(){
+		sceneIndex = 4;
+	}
+	
 	
 //GET CURRENT ANIMATION SCENE
 	public synchronized Image getImage(){

@@ -30,6 +30,7 @@ public class Sprite implements KeyListener{
 	private boolean walk_down;
 	private boolean walk_right;
 	private boolean attack;
+	private boolean attackBow;
 	private KeyEvent re;
 	
 	private ScreenManager s = new ScreenManager();
@@ -160,6 +161,27 @@ public class Sprite implements KeyListener{
 				return a.getImage();
 			}
 			
+		}else if(attackBow){
+			
+			vx = 0;
+			vy = 0;
+			
+			if(keyIndex == 4){
+				a.bowLeft();
+				return a.getImage();
+			}
+			if(keyIndex == 3){
+				a.bowRight();
+				return a.getImage();
+			}
+			if(keyIndex == 1){
+				a.bowUp();
+				return a.getImage();
+			}
+			if(keyIndex == 2){
+				a.bowDown();
+				return a.getImage();
+			}
 		}
 			
 		if(walk_left){
@@ -231,8 +253,12 @@ public class Sprite implements KeyListener{
 					keyIndex = 4;
 				}
 				
-				if(key == KeyEvent.VK_SPACE){
+				if(key == KeyEvent.VK_X){
 					attack = true;
+				}
+				
+				if(key == KeyEvent.VK_Z){
+					attackBow = true;
 				}
 				
 				if(key == KeyEvent.VK_ESCAPE){
@@ -262,8 +288,11 @@ public class Sprite implements KeyListener{
 				vx = 0;
 				walk_left = false;
 			}
-			if(key == KeyEvent.VK_SPACE){
+			if(key == KeyEvent.VK_X){
 				attack = false;
+			}
+			if(key == KeyEvent.VK_Z){
+				attackBow = false;
 			}
 			
 	}//Method
