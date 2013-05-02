@@ -21,18 +21,18 @@ public class Arrow_Spell {
 		
         if(keyIndex == 1){
         	vx = 0;
-        	vy = -1;
+        	vy = -10;
         	arrow = new ImageIcon(".\\src\\Images\\arrowUp.png").getImage();
         } else if(keyIndex == 2){
         	vx = 0;
-        	vy = 1;
+        	vy = 10;
         	arrow = new ImageIcon(".\\src\\Images\\arrowDown.png").getImage();
         } else if(keyIndex == 3){
-        	vx = 1;
+        	vx = 10;
         	vy = 0;
         	arrow = new ImageIcon(".\\src\\Images\\arrowRight.png").getImage();
         } else if(keyIndex == 4){
-        	vx = -1;
+        	vx = -10;
         	vy = 0;
         	arrow = new ImageIcon(".\\src\\Images\\arrowLeft.png").getImage();
         } else

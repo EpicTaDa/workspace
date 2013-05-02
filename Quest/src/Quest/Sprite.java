@@ -27,15 +27,18 @@ public class Sprite implements KeyListener{
 	private float vx;
 	private float vy;
 	private int keyIndex;
+	private double timer, timerStart;
 	private boolean walk_up;
 	private boolean walk_left;
 	private boolean walk_down;
 	private boolean walk_right;
 	private boolean attack;
 	private boolean attackBow;
+	public double arrows_left;
 	private ArrayList arrows;
 	private KeyEvent re;
 	
+	private Quest_Main main;
 	private ScreenManager s = new ScreenManager();
 	
 //CONSTRUCTOR
@@ -47,7 +50,12 @@ public class Sprite implements KeyListener{
 		this.wDown = wDown;
 		this.a = a;
 		
+		arrows_left = 10;
+		
 		arrows = new ArrayList();
+		
+		timerStart = System.currentTimeMillis();
+		timer = System.currentTimeMillis() - timerStart;
 		
 		x = 50;
 		y = 40;
@@ -78,8 +86,11 @@ public class Sprite implements KeyListener{
 		else
 			wDown.setStanding();
 		
-		x += vx;
-		y += vy;
+        
+		timer++;
+			
+		x += vx*2;
+		y += vy*2;
 		
 		try {
 			Thread.sleep(5);
@@ -240,8 +251,18 @@ public class Sprite implements KeyListener{
 	
 	public void fire() {
 		
-        arrows.add(new Arrow_Spell(this.x, this.y, keyIndex));
-        
+		if(arrows_left > 0){
+			if(timer <= 1 && timer >= 0){
+			
+				arrows_left -= 0.25;
+				arrows.add(new Arrow_Spell(this.x, this.y, keyIndex));
+			
+			}else if(timer > 40)
+				timer = -1;
+			
+		}
+
+		
     }//PV_FIRE
 	
 //KEY PRESSED

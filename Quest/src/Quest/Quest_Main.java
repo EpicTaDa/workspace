@@ -44,7 +44,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private Image bg;
 	private SlimeSprite slimeSprite;
 	private long timePassed;
-	
+	private Font medium;
 	private ArrayList slimes;
 	private ArrayList arrows;
 	
@@ -128,6 +128,9 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		slimeSprite = new SlimeSprite(slimeImg);
 		
+		medium = new Font("Impact", Font.BOLD, 24);
+        FontMetrics mtr = this.getFontMetrics(medium);
+		
 	}//Method
 
 //MAIN METHOD CALLED FROM MAIN
@@ -169,15 +172,16 @@ public class Quest_Main extends JPanel implements ActionListener{
 			
 	//DRAW SCREEN
 			Graphics2D g = s.getGraphics();
+			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			draw(g);
 			
 			ArrayList arrows = sprite.getArrows();
 			
 			for(int i = 0; i < arrows.size(); i++){
-	            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
-	            m.move(); 
-	        }//ForEND
-			
+				Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+	            m.move();
+			}//ForEND
+
 			g.dispose();
 			slimeSprite.update();
 			s.update();
@@ -194,11 +198,15 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
 		
-		ArrayList arrows = sprite.getArrows();
+		g.setColor(Color.RED);
+		g.setFont(medium);
+        g.drawString("Arrows Left:    "+(int)sprite.arrows_left, 24, 24);
+		
+			ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
             Arrow_Spell m = (Arrow_Spell)arrows.get(i);
-            g.drawImage(m.getImage(), (int)m.getX(), (int)m.getY(), m.getWidth()*2, m.getHeight()*2, null); 
+            g.drawImage(m.getImage(), (int)m.getX()+5, (int)m.getY()+22, m.getWidth()*2, m.getHeight()*2, null); 
         }//ForEND
 		
 	}
