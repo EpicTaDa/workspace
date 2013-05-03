@@ -1,5 +1,6 @@
 package Quest;
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -26,7 +27,8 @@ public class Sprite implements KeyListener{
 	private double y;
 	private float vx;
 	private float vy;
-	private int keyIndex;
+	private int keyIndex, width, height;
+	private Rectangle bounds;
 	private double timer, timerStart;
 	private boolean walk_up;
 	private boolean walk_left;
@@ -59,8 +61,9 @@ public class Sprite implements KeyListener{
 		
 		x = 50;
 		y = 40;
-
 		
+		width = wUp.getImage().getWidth(null);
+		height = wUp.getImage().getHeight(null);
 	}//Method
 	
 //CHANGE POSITION
@@ -138,6 +141,11 @@ public class Sprite implements KeyListener{
 //GET Y VELOCITY
 	public float getVelocityY(){
 		return vy;
+	}
+	
+//GET BOUNDS
+	public Rectangle getBounds(){
+		return new Rectangle((int)x, (int)y, width, height);
 	}
 	
 //SET X VELOCITY

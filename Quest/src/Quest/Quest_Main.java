@@ -220,23 +220,30 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		Graphics2D g = s.getGraphics();	
 	 	if(sprite.getX() < 10){	
-	 		
-			sprite.setX(10);
-			
+			sprite.setX(10);	
 		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()*0.97){
 			sprite.setX((s.getWidth()-sprite.getWidth())*0.97);
-			
 		}
 		
-		if(sprite.getY() < -10){
-			
+		if(sprite.getY() < -10){	
 			sprite.setY(-9);
-		
 		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()*0.95){
-			
 			sprite.setY((s.getHeight()-sprite.getHeight())*0.95);
-			
 		}
+		
+		ArrayList arrows = sprite.getArrows();
+		
+		for(int i = 0; i < arrows.size(); i++){
+            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+            Rectangle arrow_bounds = m.getBounds();
+            
+            Rectangle slime_bounds = slimeSprite.getBounds();
+            
+            if(slime_bounds.intersects(arrow_bounds)){
+        	   slimeSprite.kill();
+            }
+            
+        }//ForEND
 		
 		slimeSprite.update();
 		sprite.update();

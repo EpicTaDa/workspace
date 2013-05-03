@@ -1,6 +1,7 @@
 package Quest;
 
 import java.awt.Image;
+import java.awt.Rectangle;
 import java.util.Random;
 
 import Inherit.ScreenManager;
@@ -12,9 +13,11 @@ public class SlimeSprite {
 	private double y;
 	private float vx;
 	private float vy;
+	private int width, height;
 	private Image img;
 	private double timer;
 	private double timerStart;
+	private boolean dead;
 	
 	private ScreenManager s = new ScreenManager();
 	
@@ -26,17 +29,29 @@ public class SlimeSprite {
 		this.img = img;
 		timer = System.currentTimeMillis() - timerStart;
 		
+		width = img.getWidth(null);
+		height = img.getHeight(null);
+		
 	}
 	
 	public void update(){
 		
-		movement();
+		if(dead == false){
+			movement();
 		
-		y += vy;
-		x += vx;
+			y += vy;
+			x += vx;
+		}
 
 	}
 	
+	//KILL SLIME
+		public void kill(){
+			x = s.getWidth() +200;
+			y = s.getHeight() +200;
+			
+			dead = true;
+		}
 	//GET X POSITION
 		public double getX(){
 			return x;
@@ -77,6 +92,10 @@ public class SlimeSprite {
 	//GET Y VELOCITY
 		public float getVelocityY(){
 			return vy;
+		}
+	//GET BOUNDS
+		public Rectangle getBounds(){
+			return new Rectangle((int)x, (int)y, width, height);
 		}
 		
 	//SET X VELOCITY
