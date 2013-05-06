@@ -258,7 +258,7 @@ public class Sprite implements KeyListener{
 		if(arrows_left > 0){
 			if(timer <= 1 && timer >= 0){
 			
-				arrows_left -= 0.25;
+				arrows_left -= 0.5;
 				arrows.add(new Arrow_Spell(this.x, this.y, keyIndex));
 			
 			}else if(timer > 40)

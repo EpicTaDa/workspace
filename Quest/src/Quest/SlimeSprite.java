@@ -47,10 +47,12 @@ public class SlimeSprite {
 	
 	//KILL SLIME
 		public void kill(){
-			x = s.getWidth() +200;
-			y = s.getHeight() +200;
-			
 			dead = true;
+		}
+		
+	//GET IF DEAD
+		public boolean getIfDead(){
+			return dead;
 		}
 	//GET X POSITION
 		public double getX(){

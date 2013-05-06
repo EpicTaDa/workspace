@@ -41,13 +41,12 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private Attack a;
 	private Arrow_Spell arrow;
 	private ScreenManager s;
-	private Image bg, HUD;
+	private Image bg, HUD, slimeDeadImg;
 	private SlimeSprite slimeSprite;
 	private long timePassed;
 	private Font medium;
 	private Font big;
-	private ArrayList slimes;
-	private ArrayList arrows;
+	private ArrayList slimes, arrows;
 	
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,0),
@@ -90,6 +89,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		Image bowUp = new ImageIcon(".\\src\\Images\\bowUp.png").getImage();
 		
 		Image slimeImg = new ImageIcon(".\\src\\Images\\slime.png").getImage();
+		slimeDeadImg = new ImageIcon(".\\src\\Images\\slimeDead.png").getImage();
 		
 		wUp = new WalkUp();
 		wUp.addScene(step1Up, 5000);
@@ -198,8 +198,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
-		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
 		
+		if(slimeSprite.getIfDead() == false){
+			g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
+		}else
+			g.drawImage(slimeDeadImg, (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
 		ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
@@ -247,8 +250,11 @@ public class Quest_Main extends JPanel implements ActionListener{
             Rectangle slime_bounds = slimeSprite.getBounds();
             
             if(slime_bounds.intersects(arrow_bounds)){
+            	
         	   slimeSprite.kill();
-            }
+        	   System.out.println("It hgets her 2");     
+        	   
+        	}
             
         }//ForEND
 		

@@ -35,7 +35,7 @@ public class Arrow_Spell {
         	vx = -10;
         	vy = 0;
         	arrow = new ImageIcon(".\\src\\Images\\arrowLeft.png").getImage();
-        } else
+        }
         
         width = arrow.getWidth(null);
         height = arrow.getHeight(null);
