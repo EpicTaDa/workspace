@@ -95,10 +95,6 @@ public class Sprite implements KeyListener{
 		x += vx*2;
 		y += vy*2;
 		
-		try {
-			Thread.sleep(5);
-		} catch (Exception ex) {}
-		
 	}//Method
 	
 //GET X POSITION

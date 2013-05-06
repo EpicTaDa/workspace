@@ -41,10 +41,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private Attack a;
 	private Arrow_Spell arrow;
 	private ScreenManager s;
-	private Image bg;
+	private Image bg, HUD;
 	private SlimeSprite slimeSprite;
 	private long timePassed;
 	private Font medium;
+	private Font big;
 	private ArrayList slimes;
 	private ArrayList arrows;
 	
@@ -60,6 +61,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void loadImages(){
 		
 		bg = new ImageIcon(".\\src\\Images\\BG.jpg").getImage();
+		HUD = new ImageIcon(".\\src\\Images\\HUD.png").getImage();
 		
 		Image standUp = new ImageIcon(".\\src\\Images\\stand.png").getImage();
 		Image step1Up = new ImageIcon(".\\src\\Images\\step1.png").getImage();
@@ -129,6 +131,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		slimeSprite = new SlimeSprite(slimeImg);
 		
 		medium = new Font("Impact", Font.BOLD, 24);
+		big = new Font("Impact", Font.BOLD, 84);
         FontMetrics mtr = this.getFontMetrics(medium);
 		
 	}//Method
@@ -172,7 +175,6 @@ public class Quest_Main extends JPanel implements ActionListener{
 			
 	//DRAW SCREEN
 			Graphics2D g = s.getGraphics();
-			g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 			draw(g);
 			
 			ArrayList arrows = sprite.getArrows();
@@ -198,16 +200,21 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
 		
-		g.setColor(Color.RED);
-		g.setFont(medium);
-        g.drawString("Arrows Left:    "+(int)sprite.arrows_left, 24, 24);
-		
-			ArrayList arrows = sprite.getArrows();
+		ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
-            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
-            g.drawImage(m.getImage(), (int)m.getX()+5, (int)m.getY()+22, m.getWidth()*2, m.getHeight()*2, null); 
-        }//ForEND
+			Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+			g.drawImage(m.getImage(), (int)m.getX()+5, (int)m.getY()+22, m.getWidth()*2, m.getHeight()*2, null); 
+		}//ForEND
+		
+		g.setColor(Color.WHITE);
+		g.setFont(medium);
+		g.drawImage(HUD, 0, 0, s.getWidth(), s.getHeight(), null);
+        g.drawString("X "+(int)sprite.arrows_left, s.getWidth()-620, s.getHeight()-20);
+        g.setFont(big);
+        g.setColor(Color.RED);
+        g.drawString("X", 40, s.getHeight()-35);
+        g.drawString("Z", 340, s.getHeight()-35);
 		
 	}
 	
@@ -247,7 +254,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		slimeSprite.update();
 		sprite.update();
-		draw(g);
+
 		
 	}//Method
 	
