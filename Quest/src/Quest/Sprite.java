@@ -295,11 +295,11 @@ public class Sprite implements KeyListener{
 					keyIndex = 4;
 				}
 				
-				if(key == KeyEvent.VK_X){
+				if(key == KeyEvent.VK_Z){
 					attack = true;
 				}
 				
-				if(key == KeyEvent.VK_Z){
+				if(key == KeyEvent.VK_X){
 					attackBow = true;
 				}
 				
@@ -330,10 +330,10 @@ public class Sprite implements KeyListener{
 				vx = 0;
 				walk_left = false;
 			}
-			if(key == KeyEvent.VK_X){
+			if(key == KeyEvent.VK_Z){
 				attack = false;
 			}
-			if(key == KeyEvent.VK_Z){
+			if(key == KeyEvent.VK_X){
 				attackBow = false;
 			}
 			

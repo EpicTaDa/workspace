@@ -213,11 +213,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.setColor(Color.WHITE);
 		g.setFont(medium);
 		g.drawImage(HUD, 0, 0, s.getWidth(), s.getHeight(), null);
-        g.drawString("X "+(int)sprite.arrows_left, s.getWidth()-620, s.getHeight()-20);
+        g.drawString("X "+(int)sprite.arrows_left, s.getWidth()/2, s.getHeight()-20);
         g.setFont(big);
         g.setColor(Color.RED);
-        g.drawString("X", 40, s.getHeight()-35);
-        g.drawString("Z", 340, s.getHeight()-35);
+        g.drawString("X", s.getWidth()-1200, s.getHeight()-35);
+        g.drawString("Z", s.getWidth()-1600, s.getHeight()-35);
 		
 	}
 	
