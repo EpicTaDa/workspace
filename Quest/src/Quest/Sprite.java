@@ -269,6 +269,12 @@ public class Sprite implements KeyListener{
 		
     }//PV_FIRE
 	
+//KILL
+	public void kill(){
+		x = 1000;
+		y = 1000;
+	}
+	
 //KEY PRESSED
 	public void keyPressed(KeyEvent e){
 			

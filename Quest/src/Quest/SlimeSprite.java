@@ -13,19 +13,21 @@ public class SlimeSprite {
 	private double y;
 	private float vx;
 	private float vy;
-	private int width, height;
+	private int width, height, end;
 	private Image img;
 	private double timer;
 	private double timerStart;
-	private boolean dead;
+	private boolean dead, blink;
 	
 	private ScreenManager s = new ScreenManager();
 	
-	public SlimeSprite(Image img){
+	public SlimeSprite(Image img, int x, int y){
 		
 		timerStart = System.currentTimeMillis();
-		x = s.getWidth()/2;
-		y = s.getHeight()/2;
+		
+		this.x = x;
+		this.y = y;
+		
 		this.img = img;
 		timer = System.currentTimeMillis() - timerStart;
 		
@@ -37,17 +39,45 @@ public class SlimeSprite {
 	public void update(){
 		
 		if(dead == false){
+			
 			movement();
-		
 			y += vy;
 			x += vx;
-		}
+			
+		}else
+			blink();
 
 	}
 	
 	//KILL SLIME
-		public void kill(){
+		public void kill(){	
 			dead = true;
+		}
+		
+	//BLINK SLIME
+		public void blink(){
+			
+			if(timer <= 30 && timer >= 0){
+				
+				blink = true;
+				end ++;
+				
+			}else if(timer <= 100 && timer >= 31){
+				
+				blink = false;
+				
+			}else if(timer > 101)
+				timer = -1;
+
+			if(end>60){
+				
+				x = 1000;
+				y = 6000;
+				
+			}
+			
+			timer ++;
+			
 		}
 		
 	//GET IF DEAD
@@ -69,6 +99,10 @@ public class SlimeSprite {
 			this.x = x;
 			
 		}//Method
+	//GET BLINK
+		public boolean getIfBlink(){
+			return blink;
+		}
 		
 	//SET SPRITE Y POSITION
 		public void setY(double y){

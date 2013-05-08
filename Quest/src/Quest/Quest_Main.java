@@ -41,12 +41,19 @@ public class Quest_Main extends JPanel implements ActionListener{
 	private Attack a;
 	private Arrow_Spell arrow;
 	private ScreenManager s;
-	private Image bg, HUD, slimeDeadImg;
+	private Image bg, HUD, slimeDeadImg, slimeImg;
 	private SlimeSprite slimeSprite;
 	private long timePassed;
 	private Font medium;
 	private Font big;
 	private ArrayList slimes, arrows;
+	private int[][] pos =
+	    {
+	        {100, 100}, {300, 500}, {400, 400},
+	        {800, 109}, {700, 700}, {300, 500}, 
+	        {40, 259}, {700, 500}, {800, 150}, 
+	        {100, 209}
+	    };
 	
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,0),
@@ -88,7 +95,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 		Image bowDown = new ImageIcon(".\\src\\Images\\bowDown.png").getImage();
 		Image bowUp = new ImageIcon(".\\src\\Images\\bowUp.png").getImage();
 		
-		Image slimeImg = new ImageIcon(".\\src\\Images\\slime.png").getImage();
+		slimeImg = new ImageIcon(".\\src\\Images\\slime.png").getImage();
 		slimeDeadImg = new ImageIcon(".\\src\\Images\\slimeDead.png").getImage();
 		
 		wUp = new WalkUp();
@@ -128,14 +135,27 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		sprite = new Sprite(wUp, wLeft, wRight, wDown, a);
 		
-		slimeSprite = new SlimeSprite(slimeImg);
-		
 		medium = new Font("Impact", Font.BOLD, 24);
 		big = new Font("Impact", Font.BOLD, 84);
         FontMetrics mtr = this.getFontMetrics(medium);
 		
+        initSlimes();
+        
 	}//Method
 
+//INIT SLIMES
+	public void initSlimes(){
+		
+		slimes = new ArrayList();
+		
+		for(int i = 0; i < pos.length; i++){
+			
+			slimes.add(new SlimeSprite(slimeImg, pos[i][0], pos[i][1]));
+			
+		}
+		
+	}
+	
 //MAIN METHOD CALLED FROM MAIN
 	public void run(){
 		
@@ -185,7 +205,11 @@ public class Quest_Main extends JPanel implements ActionListener{
 			}//ForEND
 
 			g.dispose();
-			slimeSprite.update();
+			for(int i = 0; i < pos.length; i++){
+				
+				SlimeSprite ss = (SlimeSprite)slimes.get(i);
+				ss.update();
+			}
 			s.update();
 			
 		}
@@ -199,10 +223,17 @@ public class Quest_Main extends JPanel implements ActionListener{
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
 		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		
-		if(slimeSprite.getIfDead() == false){
-			g.drawImage(slimeSprite.getImage(), (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
-		}else
-			g.drawImage(slimeDeadImg, (int)slimeSprite.getX(), (int)slimeSprite.getY(), slimeSprite.getWidth()*2, slimeSprite.getHeight()*2, null);
+		for(int i = 0; i < pos.length; i++){
+			
+			SlimeSprite ss = (SlimeSprite)slimes.get(i);
+			
+			if(ss.getIfDead() == false){
+				g.drawImage(ss.getImage(), (int)ss.getX(), (int)ss.getY(), ss.getWidth()*2, ss.getHeight()*2, null);
+			}else if(ss.getIfBlink())
+				g.drawImage(slimeDeadImg, (int)ss.getX(), (int)ss.getY(), ss.getWidth()*2, ss.getHeight()*2, null);
+			else
+				g.drawImage(null, (int)ss.getX(), (int)ss.getY(), ss.getWidth()*2, ss.getHeight()*2, null);
+		}
 		ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
@@ -229,6 +260,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void update(){
 		
 		Graphics2D g = s.getGraphics();	
+		
 	 	if(sprite.getX() < 10){	
 			sprite.setX(10);	
 		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()*0.97){
@@ -244,21 +276,36 @@ public class Quest_Main extends JPanel implements ActionListener{
 		ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
+			
             Arrow_Spell m = (Arrow_Spell)arrows.get(i);
             Rectangle arrow_bounds = m.getBounds();
             
-            Rectangle slime_bounds = slimeSprite.getBounds();
-            
-            if(slime_bounds.intersects(arrow_bounds)){
+            for(int p = 0; p < slimes.size(); p++){
             	
-        	   slimeSprite.kill();
-        	   System.out.println("It hgets her 2");     
-        	   
-        	}
+            	SlimeSprite ss = (SlimeSprite)slimes.get(p);
+            	
+            	Rectangle slime_bounds = ss.getBounds();
             
+            	if(sprite.getBounds().intersects(slime_bounds)){
+                	
+            		sprite.kill();
+        	   
+        		}
+            	
+            	if(slime_bounds.intersects(arrow_bounds)){
+            	
+            		ss.kill();
+        	   
+        		}
+            }
         }//ForEND
 		
-		slimeSprite.update();
+		for(int i = 0; i < pos.length; i++){
+			
+			SlimeSprite ss = (SlimeSprite)slimes.get(i);
+			ss.update();	
+		}
+		
 		sprite.update();
 
 		
