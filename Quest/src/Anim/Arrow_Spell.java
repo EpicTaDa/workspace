@@ -67,7 +67,7 @@ public class Arrow_Spell {
     }
     
     public Rectangle getBounds(){
-        return new Rectangle((int)x, (int)y, width, height);    
+        return new Rectangle((int)x+2, (int)y+2, width-2, height-2);    
     }
     
     public void move(){

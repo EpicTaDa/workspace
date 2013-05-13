@@ -56,9 +56,10 @@ public class Quest_Main extends JPanel implements ActionListener{
 	    };
 	
 	private static final DisplayMode modes1[] = {
-		new DisplayMode(800,600,32,0),
-		new DisplayMode(800,600,24,0),
-		new DisplayMode(800,600,16,0),
+		new DisplayMode(800,600,32,59),
+		new DisplayMode(800,600,32,60),
+		new DisplayMode(960,540,32,59),
+		new DisplayMode(960,540,32,60)
 	};
 	
 	private boolean ingame;
@@ -221,7 +222,6 @@ public class Quest_Main extends JPanel implements ActionListener{
 	public void draw(Graphics g){
 		
 		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
-		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
 		
 		for(int i = 0; i < pos.length; i++){
 			
@@ -241,14 +241,16 @@ public class Quest_Main extends JPanel implements ActionListener{
 			g.drawImage(m.getImage(), (int)m.getX()+5, (int)m.getY()+22, m.getWidth()*2, m.getHeight()*2, null); 
 		}//ForEND
 		
+		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
+		
 		g.setColor(Color.WHITE);
 		g.setFont(medium);
 		g.drawImage(HUD, 0, 0, s.getWidth(), s.getHeight(), null);
         g.drawString("X "+(int)sprite.arrows_left, s.getWidth()/2, s.getHeight()-20);
         g.setFont(big);
         g.setColor(Color.RED);
-        g.drawString("X", s.getWidth()-1200, s.getHeight()-35);
-        g.drawString("Z", s.getWidth()-1600, s.getHeight()-35);
+        g.drawString("X", s.getWidth()-920, s.getHeight()-35);
+        g.drawString("Z", s.getWidth()-1220, s.getHeight()-35);
 		
 	}
 	
@@ -285,12 +287,6 @@ public class Quest_Main extends JPanel implements ActionListener{
             	SlimeSprite ss = (SlimeSprite)slimes.get(p);
             	
             	Rectangle slime_bounds = ss.getBounds();
-            
-            	if(sprite.getBounds().intersects(slime_bounds)){
-                	
-            		sprite.kill();
-        	   
-        		}
             	
             	if(slime_bounds.intersects(arrow_bounds)){
             	
@@ -299,6 +295,19 @@ public class Quest_Main extends JPanel implements ActionListener{
         		}
             }
         }//ForEND
+		
+		for(int p = 0; p < slimes.size(); p++){
+        	
+        	SlimeSprite ss = (SlimeSprite)slimes.get(p);
+        	
+        	Rectangle slime_bounds = ss.getBounds();
+        
+        	if(sprite.getBounds().intersects(slime_bounds)){
+            	
+        		sprite.kill();
+    	   
+    		}
+		}
 		
 		for(int i = 0; i < pos.length; i++){
 			

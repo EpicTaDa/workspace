@@ -131,7 +131,7 @@ public class SlimeSprite {
 		}
 	//GET BOUNDS
 		public Rectangle getBounds(){
-			return new Rectangle((int)x, (int)y, width, height);
+			return new Rectangle((int)x+5, (int)y+3, width-10, height-24);
 		}
 		
 	//SET X VELOCITY

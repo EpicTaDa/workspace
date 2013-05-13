@@ -141,7 +141,7 @@ public class Sprite implements KeyListener{
 	
 //GET BOUNDS
 	public Rectangle getBounds(){
-		return new Rectangle((int)x, (int)y, width, height);
+		return new Rectangle((int)x+5, (int)y+35, width-15, height-40);
 	}
 	
 //SET X VELOCITY
