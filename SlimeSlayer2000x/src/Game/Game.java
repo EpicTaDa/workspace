@@ -1,51 +1,53 @@
-package Quest;
+package Game;
 
-import java.awt.*;
+import java.applet.Applet;
+import javax.swing.JApplet;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Container;
+import java.awt.DisplayMode;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Frame;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.Rectangle;
+import java.awt.RenderingHints;
+import java.awt.Window;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.event.KeyAdapter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JPanel;
 
 import Anim.Arrow_Spell;
 import Anim.Attack;
-import Anim.WalkUp;
 import Anim.WalkDown;
 import Anim.WalkLeft;
 import Anim.WalkRight;
-import Inherit.Core;
+import Anim.WalkUp;
+import Game.Sprite;
+import Game.SlimeSprite;
 import Inherit.ScreenManager;
+import java.awt.event.KeyAdapter;
 
-import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
-@SuppressWarnings("all")
 
-public class Quest_Main extends JPanel implements ActionListener{
-	
-	public static void main(String[] args){
-		
-		Quest_Main main = new Quest_Main();
-		main.run();
-		
-	}//Main
-	
-//VARIABLE INITZ
-	private Sprite sprite;
-	private WalkUp wUp;
-	private WalkLeft wLeft;
+public class Game extends Applet implements Runnable, ActionListener {
+
+	private Image bg, slimeImg, slimeDeadImg, HUD;
+	private Anim.WalkUp wUp;
+	private Anim.WalkLeft wLeft;
 	private WalkRight wRight;
 	private WalkDown wDown;
-	private Attack a;
-	private Arrow_Spell arrow;
-	private ScreenManager s;
-	private Image bg, HUD, slimeDeadImg, slimeImg;
-	private SlimeSprite slimeSprite;
-	private long timePassed;
-	private Font medium;
+	private Anim.Attack a;
+	private Sprite sprite;
 	private Font big;
+	private Font medium;
 	private ArrayList slimes, arrows;
 	private int[][] pos =
 	    {
@@ -56,6 +58,8 @@ public class Quest_Main extends JPanel implements ActionListener{
 	        {40, 759}, {700, 500}, {800, 650}, 
 	        {200, 309}
 	    };
+	private boolean ingame;
+	//private ScreenManager s;
 	
 	private static final DisplayMode modes1[] = {
 		new DisplayMode(800,600,32,59),
@@ -63,13 +67,18 @@ public class Quest_Main extends JPanel implements ActionListener{
 		new DisplayMode(960,540,32,59),
 		new DisplayMode(960,540,32,60)
 	};
-	
-	private boolean ingame;
 
-//IMAGE LOADER
-	public void loadImages(){
+	public void init(){
+		
+		setSize(800,640);
+		setFocusable(true);
+		setVisible(true);
+		setBackground(Color.black);
+		Frame f = (Frame) this.getParent().getParent();
+		f.setTitle("Zeldur");
 		
 		bg = new ImageIcon(".\\src\\Images\\BG.jpg").getImage();
+		bg = getImage(getDatabase(), ".\\src\\Images\\BG.jpg");
 		HUD = new ImageIcon(".\\src\\Images\\HUD.png").getImage();
 		
 		Image standUp = new ImageIcon(".\\src\\Images\\stand.png").getImage();
@@ -144,9 +153,9 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
         initSlimes();
         
-	}//Method
+	}
 
-//INIT SLIMES
+	
 	public void initSlimes(){
 		
 		slimes = new ArrayList();
@@ -159,71 +168,33 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 	}
 	
-//MAIN METHOD CALLED FROM MAIN
-	public void run(){
+	public void start(){
 		
-		s = new ScreenManager();
-		ingame = true;
+		//s = new ScreenManager();
+		
+		//DisplayMode dm = s.findFirstCompatibleMode(modes1);
+		//s.setFullScreen(dm);		
+		
+		//ingame = true;
 		
 		try{
-			
-			DisplayMode dm = s.findFirstCompatibleMode(modes1);
-			s.setFullScreen(dm);
-			loadImages();
 			movieLoop();
-			
 		}finally{
-			
-			s.restoreScreen();
+			destroy();
 		}
-		
-	}//Method
+	}
 	
-//PLAY MOVIE
-	public void movieLoop(){
-		
-		Window w = s.getFullScreenWindow();
-		
-		w.addKeyListener(new TAdapter());
-		w.setFocusable(true);
-		
-		long startingTime = System.currentTimeMillis();
-		long cumTime = startingTime;
-		
-		while(ingame){
-			
-			long timePassed = System.currentTimeMillis() - startingTime;
-			cumTime += timePassed;
-			update();
-			
-	//DRAW SCREEN
-			Graphics2D g = s.getGraphics();
-			draw(g);
-			
-			ArrayList arrows = sprite.getArrows();
-			
-			for(int i = 0; i < arrows.size(); i++){
-				Arrow_Spell m = (Arrow_Spell)arrows.get(i);
-	            m.move();
-			}//ForEND
-
-			g.dispose();
-			for(int i = 0; i < pos.length; i++){
-				
-				SlimeSprite ss = (SlimeSprite)slimes.get(i);
-				ss.update();
-			}
-			s.update();
-			
-		}
-		s.restoreScreen();
-		
-	}//Method
+	public void run() {}
 	
-//DRAW METHOD
-	public void draw(Graphics g){
+	public void paint(Graphics g){
 		
-		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
+		
+		super.paint(g);
+		
+		Graphics2D g2D = (Graphics2D) g;
+		
+		System.out.println("BY THE GODS");
+		g.drawImage(bg, 0, 0, 500, 500, this);
 		
 		for(int i = 0; i < pos.length; i++){
 			
@@ -236,6 +207,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 			else
 				g.drawImage(null, (int)ss.getX(), (int)ss.getY(), ss.getWidth()*2, ss.getHeight()*2, null);
 		}
+		
 		ArrayList arrows = sprite.getArrows();
 		
 		for(int i = 0; i < arrows.size(); i++){
@@ -243,96 +215,127 @@ public class Quest_Main extends JPanel implements ActionListener{
 			g.drawImage(m.getImage(), (int)m.getX()+5, (int)m.getY()+22, m.getWidth()*2, m.getHeight()*2, null); 
 		}//ForEND
 		
-		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), sprite.getWidth()*2, sprite.getHeight()*2, null);
+		g.drawImage(sprite.getImage(), (int)sprite.getX(), (int)sprite.getY(), 
+				    sprite.getWidth()*2, sprite.getHeight()*2, null);
 		
 		g.setColor(Color.WHITE);
 		g.setFont(medium);
-		g.drawImage(HUD, 0, 0, s.getWidth(), s.getHeight(), null);
-        g.drawString("X "+(int)sprite.arrows_left, s.getWidth()/2, s.getHeight()-20);
-        g.setFont(big);
-        g.setColor(Color.RED);
-        g.drawString("X", s.getWidth()-920, s.getHeight()-35);
-        g.drawString("Z", s.getWidth()-1220, s.getHeight()-35);
+		g.drawImage(HUD, 0, 0, 500, 500, null);
+	    g.drawString("X "+(int)sprite.arrows_left, 500/2, 500-20);
+	    g.setFont(big);
+	    g.setColor(Color.RED);
+	    g.drawString("X", 300, 500-35);
+	    g.drawString("Z", 200, 500-35);
 		
 	}
 	
-	public void setIngameFalse(){
-		this.ingame = false;
-	}
-	
-//MAIN SPRITE POS
-	public void update(){
+public void movieLoop(){
 		
-		Graphics2D g = s.getGraphics();	
 		
-	 	if(sprite.getX() < 10){	
-			sprite.setX(10);	
-		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()*0.97){
-			sprite.setX((s.getWidth()-sprite.getWidth())*0.97);
-		}
+		this.addKeyListener(new TAdapter());
+		this.setFocusable(true);
 		
-		if(sprite.getY() < -10){	
-			sprite.setY(-9);
-		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()*0.95){
-			sprite.setY((s.getHeight()-sprite.getHeight())*0.95);
-		}
+		long startingTime = System.currentTimeMillis();
+		long cumTime = startingTime;
 		
-		ArrayList arrows = sprite.getArrows();
-		
-		for(int i = 0; i < arrows.size(); i++){
+		while(ingame){
 			
-            Arrow_Spell m = (Arrow_Spell)arrows.get(i);
-            Rectangle arrow_bounds = m.getBounds();
-            
-            for(int p = 0; p < slimes.size(); p++){
-            	
-            	SlimeSprite ss = (SlimeSprite)slimes.get(p);
-            	
-            	Rectangle slime_bounds = ss.getBounds();
-            	
-            	if(slime_bounds.intersects(arrow_bounds)){
-            	
-            		ss.kill();
-        	   
-        		}
-            }
-        }//ForEND
+			long timePassed = System.currentTimeMillis() - startingTime;
+			cumTime += timePassed;
+			update();
+			
+	//DRAW SCREEN
+			repaint();
+			
+			ArrayList arrows = sprite.getArrows();
+			
+			for(int i = 0; i < arrows.size(); i++){
+				Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+	            m.move();
+			}//ForEND
+
+			for(int i = 0; i < pos.length; i++){
+				
+				SlimeSprite ss = (SlimeSprite)slimes.get(i);
+				ss.update();
+			}
+			//s.update();
+			
+		}
+		//s.restoreScreen();
 		
-		for(int p = 0; p < slimes.size(); p++){
+	}//Method
+
+	public void update(){
+	
+ 	if(sprite.getX() < 10){	
+		sprite.setX(10);	
+	}else if((sprite.getX() + sprite.getWidth()) > 500*0.97){
+		sprite.setX((500-sprite.getWidth())*0.97);
+	}
+	
+	if(sprite.getY() < -10){	
+		sprite.setY(-9);
+	}else if((sprite.getY() + sprite.getHeight()) > 500*0.95){
+		sprite.setY((500-sprite.getHeight())*0.95);
+	}
+	
+	ArrayList arrows = sprite.getArrows();
+	
+	for(int i = 0; i < arrows.size(); i++){
+		
+        Arrow_Spell m = (Arrow_Spell)arrows.get(i);
+        Rectangle arrow_bounds = m.getBounds();
+        
+        for(int p = 0; p < slimes.size(); p++){
         	
         	SlimeSprite ss = (SlimeSprite)slimes.get(p);
         	
         	Rectangle slime_bounds = ss.getBounds();
-        
-        	if(sprite.getBounds().intersects(slime_bounds)){
-            	
-        		sprite.kill();
+        	
+        	if(slime_bounds.intersects(arrow_bounds)){
+        	
+        		ss.kill();
     	   
     		}
-		}
-		
-		for(int i = 0; i < pos.length; i++){
-			
-			SlimeSprite ss = (SlimeSprite)slimes.get(i);
-			ss.update();	
-		}
-		
-		sprite.update();
-
-		
-	}//Method
+        }
+    }//ForEND
 	
-	public void actionPerformed(ActionEvent e) {
-		
-		Graphics2D g = s.getGraphics();
-		draw(g);
-		g.dispose();
-		
+	for(int p = 0; p < slimes.size(); p++){
+    	
+    	SlimeSprite ss = (SlimeSprite)slimes.get(p);
+    	
+    	Rectangle slime_bounds = ss.getBounds();
+    
+    	if(sprite.getBounds().intersects(slime_bounds)){
+        	
+    		sprite.kill();
+	   
+		}
 	}
 	
-//INNER ADAPTER CLASS
+	for(int i = 0; i < pos.length; i++){
+		
+		SlimeSprite ss = (SlimeSprite)slimes.get(i);
+		ss.update();	
+	}
 	
-	private class TAdapter extends KeyAdapter {
+	sprite.update();
+
+	
+}//Method
+	
+	public void stop(){	
+	}
+
+ 	public void Destroy(){
+ 	}
+	
+	public void actionPerformed(ActionEvent e) {	
+		repaint();
+	}
+	
+private class TAdapter extends KeyAdapter {
 		
 		public TAdapter(){
 			setFocusable(true);
@@ -352,5 +355,5 @@ public class Quest_Main extends JPanel implements ActionListener{
         	e.consume();
         } 
 	}
-	
-}//Class
+
+}

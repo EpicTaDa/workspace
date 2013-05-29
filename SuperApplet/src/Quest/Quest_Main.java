@@ -1,5 +1,6 @@
 package Quest;
 
+import java.applet.Applet;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,6 +10,7 @@ import java.awt.event.KeyAdapter;
 import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
+import javax.swing.JApplet;
 
 import Anim.Arrow_Spell;
 import Anim.Attack;
@@ -17,57 +19,18 @@ import Anim.WalkDown;
 import Anim.WalkLeft;
 import Anim.WalkRight;
 import Inherit.Core;
-import Inherit.ScreenManager;
-
-import javax.swing.JPanel;
+//import Inherit.ScreenManager;
 
 @SuppressWarnings("all")
 
-public class Quest_Main extends JPanel implements ActionListener{
+public class Quest_Main extends Applet implements ActionListener{
 	
-	public static void main(String[] args){
+	
+	public void init(){
+		addKeyListener(new TAdapter());
+		setFocusable(true);
 		
-		Quest_Main main = new Quest_Main();
-		main.run();
-		
-	}//Main
-	
-//VARIABLE INITZ
-	private Sprite sprite;
-	private WalkUp wUp;
-	private WalkLeft wLeft;
-	private WalkRight wRight;
-	private WalkDown wDown;
-	private Attack a;
-	private Arrow_Spell arrow;
-	private ScreenManager s;
-	private Image bg, HUD, slimeDeadImg, slimeImg;
-	private SlimeSprite slimeSprite;
-	private long timePassed;
-	private Font medium;
-	private Font big;
-	private ArrayList slimes, arrows;
-	private int[][] pos =
-	    {
-	        {500, 100}, {300, 500}, {400, 400},
-	        {800, 109}, {700, 700}, {300, 500}, 
-	        {40, 759}, {700, 500}, {800, 150}, 
-	        {100, 209},{400, 700}, {300, 800}, 
-	        {40, 759}, {700, 500}, {800, 650}, 
-	        {200, 309}
-	    };
-	
-	private static final DisplayMode modes1[] = {
-		new DisplayMode(800,600,32,59),
-		new DisplayMode(800,600,32,60),
-		new DisplayMode(960,540,32,59),
-		new DisplayMode(960,540,32,60)
-	};
-	
-	private boolean ingame;
-
-//IMAGE LOADER
-	public void loadImages(){
+		setSize(400, 300);	
 		
 		bg = new ImageIcon(".\\src\\Images\\BG.jpg").getImage();
 		HUD = new ImageIcon(".\\src\\Images\\HUD.png").getImage();
@@ -144,7 +107,58 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
         initSlimes();
         
-	}//Method
+	}
+	
+	public void start(){
+		
+		Quest_Main main = new Quest_Main();
+		main.run();
+		
+	}
+	
+	public void stop(){
+	}
+	
+	public void destroy(){
+	}
+	
+	
+//VARIABLE INITZ
+	private Sprite sprite;
+	private WalkUp wUp;
+	private WalkLeft wLeft;
+	private WalkRight wRight;
+	private WalkDown wDown;
+	private Attack a;
+	private Arrow_Spell arrow;
+	//private ScreenManager s;
+	private Image bg, HUD, slimeDeadImg, slimeImg;
+	private SlimeSprite slimeSprite;
+	private long timePassed;
+	private Font medium;
+	private Font big;
+	private ArrayList slimes, arrows;
+	private int[][] pos =
+	    {
+			
+	        {500, 100}, {300, 500}, {400, 400},
+	        {800, 109}, {700, 700}, {300, 500}, 
+	        {40, 759}, {700, 500}, {800, 150}, 
+	        {100, 209},{400, 700}, {300, 800}, 
+	        {40, 759}, {700, 500}, {800, 650}, 
+	        {200, 309}
+	        
+	    };
+	
+	private static final DisplayMode modes1[] = {
+		new DisplayMode(800,600,32,59),
+		new DisplayMode(800,600,32,60),
+		new DisplayMode(960,540,32,59),
+		new DisplayMode(960,540,32,60)
+	};
+	
+	private boolean ingame;
+
 
 //INIT SLIMES
 	public void initSlimes(){
@@ -156,36 +170,24 @@ public class Quest_Main extends JPanel implements ActionListener{
 			slimes.add(new SlimeSprite(slimeImg, pos[i][0], pos[i][1]));
 			
 		}
-		
 	}
 	
 //MAIN METHOD CALLED FROM MAIN
 	public void run(){
 		
-		s = new ScreenManager();
 		ingame = true;
-		
 		try{
-			
-			DisplayMode dm = s.findFirstCompatibleMode(modes1);
-			s.setFullScreen(dm);
-			loadImages();
 			movieLoop();
-			
+			System.out.println("asd");
 		}finally{
-			
-			s.restoreScreen();
+			destroy();
 		}
-		
 	}//Method
 	
 //PLAY MOVIE
 	public void movieLoop(){
 		
-		Window w = s.getFullScreenWindow();
-		
-		w.addKeyListener(new TAdapter());
-		w.setFocusable(true);
+		//Window w = s.getFullScreenWindow();
 		
 		long startingTime = System.currentTimeMillis();
 		long cumTime = startingTime;
@@ -197,8 +199,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 			update();
 			
 	//DRAW SCREEN
-			Graphics2D g = s.getGraphics();
-			draw(g);
+			repaint();
 			
 			ArrayList arrows = sprite.getArrows();
 			
@@ -207,23 +208,23 @@ public class Quest_Main extends JPanel implements ActionListener{
 	            m.move();
 			}//ForEND
 
-			g.dispose();
 			for(int i = 0; i < pos.length; i++){
 				
 				SlimeSprite ss = (SlimeSprite)slimes.get(i);
 				ss.update();
 			}
-			s.update();
+			//s.update();
 			
 		}
-		s.restoreScreen();
+		//s.restoreScreen();
 		
 	}//Method
 	
 //DRAW METHOD
-	public void draw(Graphics g){
+	public void paint(Graphics g){
+		super.paint(g);
 		
-		g.drawImage(bg, 0, 0, s.getWidth(), s.getHeight(), null);
+		g.drawImage(bg, 0, 0, 500, 500, null);
 		
 		for(int i = 0; i < pos.length; i++){
 			
@@ -247,12 +248,12 @@ public class Quest_Main extends JPanel implements ActionListener{
 		
 		g.setColor(Color.WHITE);
 		g.setFont(medium);
-		g.drawImage(HUD, 0, 0, s.getWidth(), s.getHeight(), null);
-        g.drawString("X "+(int)sprite.arrows_left, s.getWidth()/2, s.getHeight()-20);
+		g.drawImage(HUD, 0, 0, 400, 5000, null);
+        g.drawString("X "+(int)sprite.arrows_left, 900/2, 800-20);
         g.setFont(big);
         g.setColor(Color.RED);
-        g.drawString("X", s.getWidth()-920, s.getHeight()-35);
-        g.drawString("Z", s.getWidth()-1220, s.getHeight()-35);
+        g.drawString("X", 25, 100-35);
+        g.drawString("Z", 25, 100-35);
 		
 	}
 	
@@ -263,18 +264,16 @@ public class Quest_Main extends JPanel implements ActionListener{
 //MAIN SPRITE POS
 	public void update(){
 		
-		Graphics2D g = s.getGraphics();	
-		
-	 	if(sprite.getX() < 10){	
-			sprite.setX(10);	
-		}else if((sprite.getX() + sprite.getWidth()) > s.getWidth()*0.97){
-			sprite.setX((s.getWidth()-sprite.getWidth())*0.97);
+	 	if(sprite.getX() < 10){
+			sprite.setX(10);
+		}else if((sprite.getX() + sprite.getWidth()) > 800*0.97){
+			sprite.setX((900-sprite.getWidth())*0.97);
 		}
 		
 		if(sprite.getY() < -10){	
 			sprite.setY(-9);
-		}else if((sprite.getY() + sprite.getHeight()) > s.getHeight()*0.95){
-			sprite.setY((s.getHeight()-sprite.getHeight())*0.95);
+		}else if((sprite.getY() + sprite.getHeight()) > 900*0.95){
+			sprite.setY((900-sprite.getHeight())*0.95);
 		}
 		
 		ArrayList arrows = sprite.getArrows();
@@ -323,11 +322,7 @@ public class Quest_Main extends JPanel implements ActionListener{
 	}//Method
 	
 	public void actionPerformed(ActionEvent e) {
-		
-		Graphics2D g = s.getGraphics();
-		draw(g);
-		g.dispose();
-		
+		repaint();	
 	}
 	
 //INNER ADAPTER CLASS
